@@ -1,0 +1,31 @@
+# Phase 2 Full Experimental Matrix
+# 5 scales × 3 algorithms × 4 domains × 5 seeds = 300 runs
+
+hydra:
+  sweeper:
+    params:
+      # 5 parameter scales
+      scaling.target_params: 10000000, 30000000, 100000000, 300000000, 1000000000
+
+      # 5 seeds for statistical significance
+      seed: 1, 2, 3, 4, 5
+
+experiment:
+  name: "phase2_full_matrix"
+  group: "phase2"
+  tags: ["scaling", "phase2", "full_matrix"]
+
+training:
+  total_timesteps: 10_000_000
+  eval_freq: 50_000
+  n_eval_episodes: 20
+  save_freq: 100_000
+  log_freq: 5_000
+
+logging:
+  use_wandb: true
+
+# Memory optimization for large models
+memory:
+  use_amp: true
+  gradient_checkpointing: ${oc.decode:${oc.select:scaling.target_params,100000000}>=300000000}

@@ -1,0 +1,39 @@
+# Phase 2 Mechanistic Analysis Experiments
+# Track representation quality and TD-overfitting
+
+hydra:
+  sweeper:
+    params:
+      scaling.target_params: 10000000, 100000000, 1000000000
+      seed: 1, 2, 3
+
+defaults:
+  - /algorithm: sac
+  - /environment: dmc
+
+experiment:
+  name: "mechanistic_analysis"
+  group: "phase2_mechanistic"
+  tags: ["mechanistic", "representation", "td_overfitting"]
+
+training:
+  total_timesteps: 5_000_000
+  eval_freq: 10_000
+
+# Enable mechanistic tracking
+mechanistic:
+  enabled: true
+  track_effective_rank: true
+  track_dead_neurons: true
+  track_td_overfitting: true
+  track_plasticity: true
+
+  # Frequency of mechanistic measurements
+  measure_freq: 10_000
+
+  # Layers to track (empty = all)
+  tracked_layers: []
+
+  # Save activations periodically
+  save_activations: true
+  activation_save_freq: 100_000

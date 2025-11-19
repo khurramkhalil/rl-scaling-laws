@@ -1,0 +1,31 @@
+# Phase 2 Architecture Ablation Study
+# Compare architectures at fixed parameter budget
+
+hydra:
+  sweeper:
+    params:
+      # Fixed parameter budget (300M)
+      scaling.target_params: 300000000
+
+      # All architecture types
+      scaling.architecture_type: mlp, cnn, transformer, moe
+
+      # 5 seeds
+      seed: 1, 2, 3, 4, 5
+
+defaults:
+  - /algorithm: sac
+  - /environment: dmc
+
+experiment:
+  name: "architecture_ablation"
+  group: "phase2_ablation"
+  tags: ["architecture", "ablation", "phase2"]
+
+training:
+  total_timesteps: 5_000_000
+  eval_freq: 25_000
+
+environment:
+  domain_name: "walker"
+  task_name: "walk"

@@ -8,6 +8,12 @@ from rl_scaling_laws.evaluation.metrics import (
     compute_td_error,
 )
 from rl_scaling_laws.evaluation.video import VideoRecorder
+from rl_scaling_laws.evaluation.mechanistic import (
+    ActivationExtractor,
+    TDOverfittingDetector,
+    PlasticityTracker,
+    analyze_model_representations,
+)
 
 __all__ = [
     "Evaluator",
@@ -16,4 +22,8 @@ __all__ = [
     "compute_effective_rank",
     "compute_td_error",
     "VideoRecorder",
+    "ActivationExtractor",
+    "TDOverfittingDetector",
+    "PlasticityTracker",
+    "analyze_model_representations",
 ]

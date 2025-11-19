@@ -365,7 +365,157 @@ pytest -v
 pytest -k "SAC" -v
 ```
 
+## Phase 2 Features
+
+### Memory Optimization
+
+For large models (300M+), use memory-efficient training:
+
+```python
+from rl_scaling_laws.utils import (
+    MixedPrecisionTrainer,
+    GradientCheckpointer,
+    optimize_memory_for_scale,
+)
+
+# Get recommended settings for scale
+settings = optimize_memory_for_scale(target_params=1_000_000_000)
+# Returns: use_amp, gradient_checkpointing, batch_size_factor, accumulation_steps
+
+# Mixed precision training
+amp_trainer = MixedPrecisionTrainer(enabled=True)
+
+with amp_trainer.autocast_context():
+    loss = compute_loss(...)
+
+amp_trainer.scale_loss(loss).backward()
+amp_trainer.step(optimizer)
+```
+
+### Distributed Training
+
+Multi-GPU support with DistributedDataParallel:
+
+```python
+from rl_scaling_laws.training import (
+    setup_distributed,
+    wrap_model_ddp,
+    is_main_process,
+)
+
+# Initialize distributed
+setup_distributed()
+
+# Wrap model
+model = wrap_model_ddp(model)
+
+# Only log on main process
+if is_main_process():
+    wandb.log(metrics)
+```
+
+### Mechanistic Analysis
+
+Track representation quality and TD-overfitting:
+
+```python
+from rl_scaling_laws.evaluation import (
+    ActivationExtractor,
+    TDOverfittingDetector,
+    PlasticityTracker,
+)
+
+# Extract activations
+extractor = ActivationExtractor(model)
+extractor.register_hooks()
+model(input)
+ranks = extractor.compute_all_effective_ranks()
+
+# Detect TD-overfitting
+detector = TDOverfittingDetector()
+detector.update(timestep, train_td_error, val_td_error)
+result = detector.detect_overfitting()
+
+# Track plasticity
+tracker = PlasticityTracker(model)
+metrics = tracker.update()
+plasticity_loss = tracker.compute_plasticity_loss()
+```
+
+### Experiment Management
+
+Manage large-scale experiment sweeps:
+
+```python
+from rl_scaling_laws.training import ExperimentManager, ExperimentConfig
+
+manager = ExperimentManager("experiments/")
+
+# Create experiments
+config = ExperimentConfig(
+    name="phase2_sac_dmc",
+    algorithm="sac",
+    environment="dmc",
+    target_params=100_000_000,
+    seed=1,
+)
+exp_id = manager.create_experiment(config)
+
+# Submit batch
+manager.submit_batch([exp_id])
+
+# Monitor status
+summary = manager.get_summary()
+```
+
+### Scaling Analysis
+
+Analyze experimental results:
+
+```python
+from analysis.scripts.scaling_analysis import ScalingLawAnalyzer
+
+analyzer = ScalingLawAnalyzer("results/")
+analyzer.load_results()
+
+# Fit scaling law
+fit = analyzer.fit_power_law(params, performance)
+# Returns: alpha (exponent), A (coefficient), r_squared
+
+# Compute Pareto frontier
+pareto_x, pareto_y, _ = analyzer.compute_pareto_frontier(compute, performance)
+
+# Find optimal allocation
+optimal = analyzer.find_optimal_allocation(data, compute_budget=1000)
+
+# Generate report
+analyzer.generate_report("analysis_output/")
+```
+
+### Phase 2 Sweep Configurations
+
+Run comprehensive experiments:
+
+```bash
+# Full matrix (5 scales × 5 seeds)
+python -m rl_scaling_laws.train -m \
+    --config-name=sweeps/phase2_full_matrix
+
+# Architecture ablation
+python -m rl_scaling_laws.train -m \
+    --config-name=sweeps/phase2_architecture_ablation
+
+# UTD ratio sweep
+python -m rl_scaling_laws.train -m \
+    --config-name=sweeps/phase2_utd_sweep
+
+# Mechanistic analysis with tracking
+python -m rl_scaling_laws.train \
+    --config-name=sweeps/phase2_mechanistic
+```
+
 ---
 
 *Last updated: 2025-11-19*
 *Phase 1 infrastructure: Complete*
+*Phase 2 features: Complete*
