@@ -1,0 +1,24 @@
+# CNN (Convolutional Neural Network) architecture configuration
+architecture:
+  name: "cnn"
+
+  # Convolutional layers (Nature DQN style base)
+  conv_channels: [32, 64, 64]
+  conv_kernels: [8, 4, 3]
+  conv_strides: [4, 2, 1]
+
+  # MLP head
+  mlp_hidden_sizes: [512]
+
+  # Scaling
+  channel_multiplier: 1.0  # Scale conv channels
+  mlp_multiplier: 1.0  # Scale MLP width
+
+  # Activation
+  activation: "relu"
+
+  # Normalization
+  batch_norm: false
+
+  # Initialization
+  init_method: "orthogonal"

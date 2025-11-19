@@ -1,0 +1,32 @@
+# MoE (Mixture of Experts) architecture configuration
+architecture:
+  name: "moe"
+
+  # Base dimensions
+  hidden_size: 256
+  num_layers: 2
+
+  # Expert configuration
+  num_experts: 8
+  num_experts_per_token: 2  # Top-k routing
+  expert_hidden_size: 256
+
+  # Scaling
+  scale_experts: true
+  scale_hidden: true
+
+  # Routing
+  router_type: "top_k"  # top_k, switch
+  router_jitter: 0.0  # Noise for load balancing
+
+  # Load balancing
+  load_balancing_weight: 0.01
+
+  # Shared layers
+  shared_layers: []  # Indices of layers to share
+
+  # Activation
+  activation: "gelu"
+
+  # Initialization
+  init_method: "xavier"

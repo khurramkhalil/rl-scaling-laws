@@ -1,0 +1,34 @@
+# MetaWorld environment configuration
+environment:
+  domain: "metaworld"
+
+  # Default task
+  task: "reach-v2"
+
+  # Benchmark
+  benchmark: "ml1"  # ml1, ml10, ml45, mt10, mt50
+
+  # Observation settings
+  use_camera_obs: false
+  camera_name: "corner"
+  image_size: 84
+
+  # Episode settings
+  max_episode_steps: 500
+
+  # Normalization
+  normalize_obs: true
+
+  # Success metric
+  use_sparse_reward: false
+  success_threshold: 0.9
+
+# Available MetaWorld tasks for experiments
+available_tasks:
+  - "reach-v2"
+  - "push-v2"
+  - "pick-place-v2"
+  - "door-open-v2"
+  - "drawer-open-v2"
+  - "window-open-v2"
+  - "button-press-v2"

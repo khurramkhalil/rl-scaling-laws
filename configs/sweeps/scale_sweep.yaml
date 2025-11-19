@@ -1,0 +1,16 @@
+# Full scale sweep configuration
+# 5 scales: 10M, 30M, 100M, 300M, 1B parameters
+
+hydra:
+  sweeper:
+    params:
+      scaling.target_params: 10_000_000, 30_000_000, 100_000_000, 300_000_000, 1_000_000_000
+      seed: 1, 2, 3, 4, 5
+
+experiment:
+  name: "scale_sweep"
+  group: "phase2_scaling"
+
+training:
+  total_timesteps: 10_000_000
+  eval_freq: 50_000
