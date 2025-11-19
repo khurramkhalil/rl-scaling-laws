@@ -1,0 +1,39 @@
+# PPO (Proximal Policy Optimization) configuration
+algorithm:
+  name: "ppo"
+
+  # Learning rate
+  lr: 3e-4
+
+  # GAE parameters
+  gamma: 0.99
+  gae_lambda: 0.95
+
+  # PPO specific
+  clip_range: 0.2
+  clip_range_vf: null  # null means no clipping
+  normalize_advantage: true
+
+  # Entropy coefficient
+  ent_coef: 0.0
+
+  # Value function coefficient
+  vf_coef: 0.5
+
+  # Max gradient norm
+  max_grad_norm: 0.5
+
+  # Network architecture (will be scaled)
+  policy_hidden_sizes: [256, 256]
+  value_hidden_sizes: [256, 256]
+
+  # Rollout
+  n_steps: 2048
+  n_envs: 8
+
+  # Training
+  n_epochs: 10
+  batch_size: 64
+
+  # Target KL (early stopping)
+  target_kl: null

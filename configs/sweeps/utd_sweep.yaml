@@ -1,0 +1,16 @@
+# UTD (Updates-to-Data) ratio sweep configuration
+# Test how larger models can handle more gradient updates per sample
+
+hydra:
+  sweeper:
+    params:
+      scaling.target_params: 10_000_000, 100_000_000, 1_000_000_000
+      algorithm.utd_ratio: 1, 2, 4, 8, 16, 32
+      seed: 1, 2, 3
+
+experiment:
+  name: "utd_sweep"
+  group: "phase2_utd"
+
+training:
+  total_timesteps: 5_000_000

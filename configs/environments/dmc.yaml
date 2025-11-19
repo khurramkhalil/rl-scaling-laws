@@ -1,0 +1,38 @@
+# DMC (DeepMind Control Suite) environment configuration
+environment:
+  domain: "dmc"
+
+  # Default task
+  domain_name: "walker"
+  task_name: "walk"
+
+  # Observation settings
+  from_pixels: false
+  height: 84
+  width: 84
+  camera_id: 0
+  frame_stack: 3
+
+  # Action repeat
+  action_repeat: 2
+
+  # Episode settings
+  max_episode_steps: 1000
+
+  # Normalization
+  normalize_obs: true
+  normalize_reward: false
+
+  # Evaluation
+  eval_render: false
+
+# Available DMC tasks for experiments
+available_tasks:
+  - domain: "walker"
+    tasks: ["walk", "run", "stand"]
+  - domain: "humanoid"
+    tasks: ["walk", "run", "stand"]
+  - domain: "cheetah"
+    tasks: ["run"]
+  - domain: "quadruped"
+    tasks: ["walk", "run"]

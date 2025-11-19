@@ -1,0 +1,26 @@
+# Pilot experiment sweep configuration
+# Minimal viable experiment: 3 scales, 1 domain, 1 algorithm
+
+hydra:
+  sweeper:
+    params:
+      scaling.target_params: 10_000_000, 100_000_000, 1_000_000_000
+      seed: 1, 2, 3
+
+defaults:
+  - /algorithm: sac
+  - /architecture: mlp
+  - /environment: atari
+
+# Override settings for pilot
+experiment:
+  name: "pilot"
+  group: "phase1_pilot"
+
+training:
+  total_timesteps: 5_000_000
+  eval_freq: 25_000
+  n_eval_episodes: 10
+
+environment:
+  game: "Breakout"

@@ -1,0 +1,37 @@
+# Atari environment configuration
+environment:
+  domain: "atari"
+
+  # Default game
+  game: "Breakout"
+
+  # Frame processing
+  frame_stack: 4
+  frame_skip: 4
+  screen_size: 84
+  grayscale: true
+
+  # Episode settings
+  max_episode_steps: 27_000  # 108K frames with skip
+  noop_max: 30
+  terminal_on_life_loss: true
+
+  # Reward processing
+  clip_rewards: true
+
+  # Evaluation
+  eval_deterministic: true
+  eval_render: false
+
+  # Wrapper settings
+  episodic_life: true
+  fire_reset: true
+
+# Available Atari games for experiments
+available_games:
+  - "Breakout"
+  - "Pong"
+  - "SpaceInvaders"
+  - "Qbert"
+  - "Seaquest"
+  - "BeamRider"

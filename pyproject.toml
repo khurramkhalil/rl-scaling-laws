@@ -1,0 +1,126 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rl-scaling-laws"
+version = "0.1.0"
+description = "Research framework for studying reinforcement learning scaling laws"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Khurram Khalil", email = "khurram.khalil@missouri.edu"}
+]
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = ["reinforcement-learning", "scaling-laws", "deep-learning", "research"]
+
+dependencies = [
+    "torch>=2.0.0",
+    "numpy>=1.24.0",
+    "gymnasium>=0.29.0",
+    "hydra-core>=1.3.0",
+    "omegaconf>=2.3.0",
+    "wandb>=0.15.0",
+    "tensorboard>=2.13.0",
+    "tqdm>=4.65.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "pandas>=2.0.0",
+    "scipy>=1.10.0",
+    "moviepy>=1.0.3",
+    "imageio>=2.31.0",
+]
+
+[project.optional-dependencies]
+atari = [
+    "ale-py>=0.8.1",
+    "gymnasium[atari,accept-rom-license]>=0.29.0",
+    "opencv-python>=4.8.0",
+]
+dmc = [
+    "dm-control>=1.0.0",
+    "mujoco>=2.3.0",
+]
+metaworld = [
+    "metaworld @ git+https://github.com/Farama-Foundation/Metaworld.git@master#egg=metaworld",
+]
+procgen = [
+    "procgen>=0.10.7",
+]
+all = [
+    "rl-scaling-laws[atari,dmc,metaworld,procgen]",
+]
+dev = [
+    "pytest>=7.3.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.3.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.3.0",
+    "pre-commit>=3.3.0",
+]
+
+[project.scripts]
+rl-train = "rl_scaling_laws.train:main"
+rl-eval = "rl_scaling_laws.evaluate:main"
+rl-analyze = "rl_scaling_laws.analyze:main"
+
+[project.urls]
+Homepage = "https://github.com/khurramkhalil/rl-scaling-laws"
+Repository = "https://github.com/khurramkhalil/rl-scaling-laws"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+known_first_party = ["rl_scaling_laws"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --tb=short"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]

@@ -1,0 +1,42 @@
+# Core dependencies
+torch>=2.0.0
+numpy>=1.24.0
+gymnasium>=0.29.0
+
+# Configuration management
+hydra-core>=1.3.0
+omegaconf>=2.3.0
+
+# Experiment tracking
+wandb>=0.15.0
+tensorboard>=2.13.0
+
+# Utilities
+tqdm>=4.65.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+pandas>=2.0.0
+scipy>=1.10.0
+
+# Video recording
+moviepy>=1.0.3
+imageio>=2.31.0
+
+# Atari environments
+ale-py>=0.8.1
+opencv-python>=4.8.0
+
+# DMC environments
+dm-control>=1.0.0
+mujoco>=2.3.0
+
+# Procgen environments
+procgen>=0.10.7
+
+# Development
+pytest>=7.3.0
+pytest-cov>=4.1.0
+black>=23.3.0
+isort>=5.12.0
+flake8>=6.0.0
+mypy>=1.3.0

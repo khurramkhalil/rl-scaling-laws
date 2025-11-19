@@ -1,0 +1,28 @@
+# Transformer architecture configuration
+architecture:
+  name: "transformer"
+
+  # Model dimensions
+  embed_dim: 256
+  num_heads: 4
+  num_layers: 4
+  mlp_ratio: 4.0  # MLP hidden = embed_dim * mlp_ratio
+
+  # Scaling
+  scale_embed: true
+  scale_heads: true
+  scale_layers: true
+
+  # Attention settings
+  dropout: 0.0
+  attention_dropout: 0.0
+
+  # Position encoding
+  max_seq_len: 1024
+  pos_encoding: "learned"  # learned, sinusoidal
+
+  # Layer norm position
+  pre_norm: true
+
+  # Initialization
+  init_method: "xavier"

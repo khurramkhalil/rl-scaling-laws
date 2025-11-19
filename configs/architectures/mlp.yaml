@@ -1,0 +1,26 @@
+# MLP (Multi-Layer Perceptron) architecture configuration
+architecture:
+  name: "mlp"
+
+  # Base configuration (will be scaled to target params)
+  base_hidden_size: 256
+  base_num_layers: 2
+
+  # Scaling strategy
+  scale_width: true  # Scale hidden size
+  scale_depth: true  # Scale number of layers
+  width_multiplier: 1.0
+  depth_multiplier: 1.0
+
+  # Activation
+  activation: "relu"  # relu, tanh, gelu, silu
+
+  # Normalization
+  layer_norm: false
+
+  # Initialization
+  init_method: "orthogonal"  # orthogonal, xavier, kaiming
+  init_gain: 1.0
+
+  # Dropout (optional regularization)
+  dropout: 0.0

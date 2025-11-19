@@ -1,0 +1,50 @@
+# Main configuration file for RL Scaling Laws experiments
+defaults:
+  - algorithm: sac
+  - architecture: mlp
+  - environment: atari
+  - _self_
+
+# Experiment identification
+experiment:
+  name: "default"
+  project: "rl-scaling-laws"
+  group: null
+  tags: []
+  notes: ""
+
+# Training settings
+training:
+  total_timesteps: 1_000_000
+  eval_freq: 10_000
+  n_eval_episodes: 10
+  save_freq: 50_000
+  log_freq: 1_000
+  batch_size: 256
+  learning_starts: 10_000
+  gradient_steps: 1  # UTD ratio for off-policy
+
+# Model scaling
+scaling:
+  target_params: 10_000_000  # 10M default
+  architecture_type: "mlp"  # mlp, cnn, transformer, moe
+
+# Reproducibility
+seed: 42
+deterministic: false
+
+# Device settings
+device: "auto"  # auto, cuda, cpu
+
+# Logging
+logging:
+  level: "INFO"
+  save_dir: "logs"
+  use_wandb: true
+  use_tensorboard: false
+
+# Checkpointing
+checkpoint:
+  save_best: true
+  save_last: true
+  keep_last_n: 3

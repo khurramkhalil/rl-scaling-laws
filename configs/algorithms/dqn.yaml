@@ -1,0 +1,31 @@
+# DQN (Deep Q-Network) configuration
+algorithm:
+  name: "dqn"
+
+  # Learning rate
+  lr: 1e-4
+
+  # Discount and target update
+  gamma: 0.99
+  target_update_freq: 10_000
+
+  # Exploration
+  exploration_initial_eps: 1.0
+  exploration_final_eps: 0.01
+  exploration_fraction: 0.1
+
+  # Network architecture (will be scaled)
+  hidden_sizes: [256, 256]
+
+  # Replay buffer
+  buffer_size: 1_000_000
+
+  # Training
+  utd_ratio: 1
+  batch_size: 32
+
+  # Double DQN
+  double_q: true
+
+  # Dueling DQN
+  dueling: true
