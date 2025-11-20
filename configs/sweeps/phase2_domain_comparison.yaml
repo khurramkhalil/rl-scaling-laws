@@ -1,0 +1,83 @@
+# Phase 2 Domain Comparison
+# Compare scaling behavior across all 4 domains
+
+# Atari experiments
+atari_sweep:
+  defaults:
+    - /algorithm: dqn
+    - /environment: atari
+
+  hydra:
+    sweeper:
+      params:
+        scaling.target_params: 10000000, 30000000, 100000000, 300000000, 1000000000
+        environment.game: Breakout, Pong
+        seed: 1, 2, 3, 4, 5
+
+  experiment:
+    name: "atari_scaling"
+    group: "phase2_domains"
+
+  training:
+    total_timesteps: 10_000_000
+
+# DMC experiments
+dmc_sweep:
+  defaults:
+    - /algorithm: sac
+    - /environment: dmc
+
+  hydra:
+    sweeper:
+      params:
+        scaling.target_params: 10000000, 30000000, 100000000, 300000000, 1000000000
+        environment.domain_name: walker, humanoid
+        seed: 1, 2, 3, 4, 5
+
+  experiment:
+    name: "dmc_scaling"
+    group: "phase2_domains"
+
+  training:
+    total_timesteps: 5_000_000
+
+# MetaWorld experiments
+metaworld_sweep:
+  defaults:
+    - /algorithm: sac
+    - /environment: metaworld
+
+  hydra:
+    sweeper:
+      params:
+        scaling.target_params: 10000000, 30000000, 100000000, 300000000, 1000000000
+        environment.task: reach-v2, push-v2
+        seed: 1, 2, 3, 4, 5
+
+  experiment:
+    name: "metaworld_scaling"
+    group: "phase2_domains"
+
+  training:
+    total_timesteps: 3_000_000
+
+# Procgen experiments
+procgen_sweep:
+  defaults:
+    - /algorithm: ppo
+    - /environment: procgen
+
+  hydra:
+    sweeper:
+      params:
+        scaling.target_params: 10000000, 30000000, 100000000, 300000000, 1000000000
+        environment.game: starpilot, coinrun
+        seed: 1, 2, 3, 4, 5
+
+  experiment:
+    name: "procgen_scaling"
+    group: "phase2_domains"
+
+  training:
+    total_timesteps: 25_000_000
+    n_envs: 64

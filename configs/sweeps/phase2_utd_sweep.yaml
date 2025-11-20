@@ -1,0 +1,35 @@
+# Phase 2 UTD (Updates-to-Data) Ratio Sweep
+# Test how larger models can handle more gradient updates per sample
+
+hydra:
+  sweeper:
+    params:
+      # 3 key scales
+      scaling.target_params: 10000000, 100000000, 1000000000
+
+      # UTD ratios from 1 to 32
+      algorithm.utd_ratio: 1, 2, 4, 8, 16, 32
+
+      # 3 seeds for faster iteration
+      seed: 1, 2, 3
+
+defaults:
+  - /algorithm: sac
+  - /environment: dmc
+
+experiment:
+  name: "utd_sweep"
+  group: "phase2_utd"
+  tags: ["utd", "sample_efficiency", "phase2"]
+
+training:
+  total_timesteps: 5_000_000
+  eval_freq: 25_000
+
+# Track sample efficiency metrics
+logging:
+  use_wandb: true
+  extra_metrics:
+    - "updates_per_sample"
+    - "wall_clock_time"
+    - "samples_per_second"
